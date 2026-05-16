@@ -1,0 +1,121 @@
+skill: gauge
+skill_md_path: /Users/spacewizardmoneygang/.claude/skills/gauge/SKILL.md
+rubric_version: 1.0.0
+
+items:
+  - id: gauge-POSTURE-01
+    operation: "Confirm Janum-tier vs. senior posture and emit POSTURE: declaration"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: 'POSTURE:\s*(janum|senior|unknown)'
+    span_required: yes
+    notes: "Silent skip on posture = 0. Senior explicitly flagged still scores 2 if subsequent operations recommend recalibration."
+
+  - id: gauge-CAP-01
+    operation: "Reference at least one concrete capability from 'What This Skill Concretely Enables'"
+    evidence_schema:
+      type: comparative_claim
+      parts:
+        - capability_named: "must match one of: deliberate primitive choice; calibrate expectations against goal tier; identify external artifacts requiring 90%; surface framing before it embeds; control engineering budget"
+        - how_this_run_enables_it: specific
+    span_required: yes
+
+  - id: gauge-MODE-01
+    operation: "Declare which mode is active: Mode A (introspective) or Mode B-Understand or Mode B-Reproduce"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(GAUGE\s*[—-]\s*(INTROSPECTIVE|ARTIFACT)|Mode\s*A\b|Mode\s*B[-\s](Understand|Reproduce)|Sub-mode:\s*(Understand|Reproduce))'
+    span_required: yes
+    notes: "Mode B without sub-mode bifurcation caps at 1."
+
+  - id: gauge-TIER-01
+    operation: "Name current-tier AND required-tier AND state the gap explicitly"
+    evidence_schema:
+      type: comparative_claim
+      parts:
+        - current_tier_named: "Tier 0/1/2A/2B/3A/3B with confidence"
+        - required_tier_named: "Tier 0/1/2A/2B/3A/3B with reasoning"
+        - gap_stated: "delta, 'matched', or 'over-engineered'"
+    span_required: yes
+    notes: "Missing any of the three caps at 1. Single tier with no gap statement = 0 for this item."
+
+  - id: gauge-PRIM-01
+    operation: "Identify the primitives currently being reached for (Mode A) or visible primitives in the artifact (Mode B)"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 1
+      domain_specificity: "must name specific iOS APIs, frameworks, or class names — not generic 'UI components'"
+    span_required: yes
+
+  - id: gauge-BLIND-01
+    operation: "Enumerate at least one blind spot specific to this task — cartographic gaps, 90% manifestations not investigated, or domain-truncation"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 1
+      domain_specificity: "must point to a concrete missing primitive category, missing 90% manifestation, or missing domain"
+    span_required: yes
+
+  - id: gauge-META-01
+    operation: "Execute the five Meta-Perspective Prompts (differently-exposed engineer / hostile review / five-years-later / wrong-domain / artifact-tier challenge)"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 3
+      domain_specificity: "each prompt must produce a domain-specific surfaced concern, not a generic restatement"
+    span_required: yes
+    notes: "All five prompts walked = 2. Three or four = 1. Fewer than three or pure boilerplate = 0."
+
+  - id: gauge-NEXT-01
+    operation: "Recommend the next framework skill(s) calibrated to the named gap (cartography / ninety / conjecture / lens-check)"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(/cartography|/ninety|/conjecture|/lens-check|proceed at current depth|no further framework skills)'
+    span_required: yes
+    notes: "Recommendation must reference the gap size or be 'proceed at current depth'."
+
+  - id: gauge-REPRO-01
+    operation: "For Mode B-Reproduce only: produce Reproducibility Verdict (YES/NO with reasoning)"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(Reproducible from outside Apple:|Reproducibility Verdict|YES at Tier|YES with caveats|NO because)'
+      conditional: "applies only when Mode B-Reproduce is the declared mode"
+    span_required: yes
+    notes: "Not applicable for Mode A or Mode B-Understand — score 2 by default (n/a). For Mode B-Reproduce: missing verdict = 0."
+
+  - id: gauge-DIM-01
+    operation: "Dimensionality Completeness Check — at least 4 of 6 dimensions explicitly addressed (mode / tier / intention / manifestation / domain / confidence)"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 4
+    span_required: yes
+    notes: "Six dimensions for Mode B; for Mode A only mode/tier/domain/confidence are strictly required, but reaching 4 is the bar."
+
+  - id: M1
+    operation: "Honest non-execution acknowledgment — what was NOT done, what is pending, what was skipped"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(I (did not|have not|cannot)|outstanding|pending|partial|skipped|did not address|not yet|unexamined|will need)'
+    span_required: yes
+
+  - id: M2
+    operation: "Capability grounding — link this run's output to a specific named capability from 'What This Skill Concretely Enables'"
+    evidence_schema:
+      type: comparative_claim
+      parts:
+        - capability_named: specific
+        - how_this_run_enables_it: specific
+    span_required: yes
+
+  - id: M3
+    operation: "Cross-skill traceability — reference downstream/upstream skills with citation IDs or skill-name pointers"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(CARTO-|NINETY-|GAUGE-|CONJECTURE-|recommend.*?/gauge|recommend.*?/cartography|recommend.*?/ninety|recommend.*?/conjecture|recommend.*?/lens-check|/cartography|/ninety|/conjecture|/lens-check)'
+    span_required: yes
+
+scoring:
+  per_item: "0 | 1 | 2"
+  skill_score: "sum / max_possible"
+  thresholds:
+    pass: "skill_score >= 0.75 AND every meta_item >= 1 AND posture/mode items != 0"
+    warn: "0.50 <= skill_score < 0.75"
+    fail: "skill_score < 0.50 OR any meta_item == 0"

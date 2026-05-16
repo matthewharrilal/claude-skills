@@ -1,0 +1,132 @@
+skill: ninety
+skill_md_path: /Users/spacewizardmoneygang/.claude/skills/ninety/SKILL.md
+rubric_version: 1.0.0
+
+items:
+  - id: ninety-POSTURE-01
+    operation: "Confirm Janum-tier vs. senior posture and emit POSTURE: declaration"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: 'POSTURE:\s*(janum|senior|unknown)'
+    span_required: yes
+    notes: "Intention 3 (peer rebuild) and Intention 6 (philosophical inheritance) collapse under senior posture. Silent skip = 0."
+
+  - id: ninety-CAP-01
+    operation: "Reference at least one concrete capability from 'What This Skill Concretely Enables'"
+    evidence_schema:
+      type: comparative_claim
+      parts:
+        - capability_named: "must match one of: ship Apple-grade without private linkage; avoid reinventing what Apple solved; absorb apprenticeship philosophy; calibrate taste; know what is solvable; inherit tuned parameter values"
+        - how_this_run_enables_it: specific
+    span_required: yes
+
+  - id: ninety-INTENT-01
+    operation: "Phase 1 — Active intentions named (one or more of the eight intentions), with priority ranking if multiple"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 1
+      required_pattern: '(Intention\s*[1-8]|compositional lens|importable material|peer rebuild|recursive exploration|awareness.as.signal|philosophical inheritance|taste calibration|reality check)'
+    span_required: yes
+
+  - id: ninety-MANIF-01
+    operation: "Five Manifestations explicitly considered — each marked relevant or not relevant with reasoning"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 5
+      required_pattern: '(Manifestation\s*A|internal compositions|Manifestation\s*B|data files|Manifestation\s*C|private framework signatures|Manifestation\s*D|internal behaviors|Manifestation\s*E|tacit)'
+    span_required: yes
+    notes: "All five considered = 2. Three or four = 1. Fewer = 0. Default-skipping a manifestation without acknowledgment is a coverage failure."
+
+  - id: ninety-LENS-01
+    operation: "Phase 2.5 — Six Lenses applied (form of manifestation / acquisition mode / recoverability / what they feed / App Store risk / depth)"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 4
+      required_pattern: '(Lens\s*[1-6]|form of manifestation|acquisition mode|recoverability|what they feed|App Store risk|by depth)'
+    span_required: yes
+    notes: "All six = 2. Four or five = 1. Each lens may be one or two sentences; the discipline is explicit consideration."
+
+  - id: ninety-FIND-01
+    operation: "Research findings per engaged manifestation, with citation IDs and confidence calibration"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 1
+      domain_specificity: "findings must be specific (class names, byte values, measurements, philosophical positions) — not generic claims"
+    span_required: yes
+
+  - id: ninety-CITE-01
+    operation: "Citation IDs in NINETY-[domain]-[manifestation-letter][NN] format"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: 'NINETY-[a-zA-Z0-9_-]+-?[A-E]?\d*'
+    span_required: yes
+    notes: "/conjecture cites findings by these IDs. No NINETY- IDs = 0."
+
+  - id: ninety-DELIV-01
+    operation: "Phase 4 — Deliverable per active intention, in the form that intention demands (rule / byte / architectural understanding / etc.)"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 1
+      domain_specificity: "deliverable must match the intention's expected form — rules for Intention 1, byte values for Intention 2, architectural plans for Intention 3, etc."
+    span_required: yes
+
+  - id: ninety-OUT-01
+    operation: "Phase 5 — Outstanding research flagged explicitly (manifestations relevant but not investigated, intentions not fully served, iOS version currency)"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 1
+      required_pattern: '(Outstanding|not yet investigated|would require|need.*?information|not researched|pending)'
+    span_required: yes
+
+  - id: ninety-META-01
+    operation: "Six Meta-Perspective Prompts walked (deepest-manifestation / unconsidered-intention / differently-experienced researcher / interpretation-confidence / trigger-recognition / version-currency)"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 4
+    span_required: yes
+    notes: "All six = 2. Four or five = 1. Fewer than four = 0."
+
+  - id: ninety-NEXT-01
+    operation: "Recommend the next framework skill"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(/conjecture|/cartography|/gauge|/lens-check)'
+    span_required: yes
+
+  - id: ninety-DIM-01
+    operation: "Dimensionality Completeness Check — at least 5 of 7 dimensions addressed (manifestation / intention / research-method / finding-confidence / outstanding-research / cross-domain / version)"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 5
+    span_required: yes
+
+  - id: M1
+    operation: "Honest non-execution acknowledgment"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(I (did not|have not|cannot)|outstanding|pending|partial|skipped|did not address|not yet|unexamined|would need)'
+    span_required: yes
+
+  - id: M2
+    operation: "Capability grounding"
+    evidence_schema:
+      type: comparative_claim
+      parts:
+        - capability_named: specific
+        - how_this_run_enables_it: specific
+    span_required: yes
+
+  - id: M3
+    operation: "Cross-skill traceability"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(CARTO-|NINETY-|GAUGE-|CONJECTURE-|recommend.*?/gauge|recommend.*?/cartography|recommend.*?/ninety|recommend.*?/conjecture|recommend.*?/lens-check|/cartography|/ninety|/conjecture|/lens-check)'
+    span_required: yes
+
+scoring:
+  per_item: "0 | 1 | 2"
+  skill_score: "sum / max_possible"
+  thresholds:
+    pass: "skill_score >= 0.75 AND every meta_item >= 1 AND posture/mode items != 0"
+    warn: "0.50 <= skill_score < 0.75"
+    fail: "skill_score < 0.50 OR any meta_item == 0"

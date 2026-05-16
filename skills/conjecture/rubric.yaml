@@ -1,0 +1,135 @@
+skill: conjecture
+skill_md_path: /Users/spacewizardmoneygang/.claude/skills/conjecture/SKILL.md
+rubric_version: 1.0.0
+
+items:
+  - id: conjecture-POSTURE-01
+    operation: "Confirm Janum-tier vs. senior posture and emit POSTURE: declaration"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: 'POSTURE:\s*(janum|senior|unknown)'
+    span_required: yes
+    notes: "Senior posture produces private-API translations or senior-tier composition with retrofitted Layer 2 annotations. Silent skip = 0."
+
+  - id: conjecture-CAP-01
+    operation: "Reference at least one concrete capability from 'What This Skill Concretely Enables'"
+    evidence_schema:
+      type: comparative_claim
+      parts:
+        - capability_named: "must match one of: ship Apple-grade from outside Apple using public APIs; code teaches its readers; compound capability across portfolio; survive iOS version transitions; articulate Janum vs senior delta; ship without App Store risk"
+        - how_this_run_enables_it: specific
+    span_required: yes
+
+  - id: conjecture-INPUTS-01
+    operation: "Phase 2 — Inputs inventory with partial-inputs handling (gauge / cartography / ninety outputs assessed; missing flagged with halt-or-disclose decision)"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(Gauge baseline|/gauge output|Cartography output|/cartography output|Ninety output|/ninety output|Partial-Inputs|missing.*?input|input.*?missing|All three inputs|inputs present)'
+    span_required: yes
+    notes: "Improvised upstream-skill outputs without explicit partial-inputs disclosure = 0."
+
+  - id: conjecture-DEC-01
+    operation: "Phase 3 — Load-bearing compositional decisions enumerated (primitive selection / composition order / parameter values / state management / rule encoding)"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 2
+      domain_specificity: "decisions must name concrete architectural choices, not generic 'use the right primitive'"
+    span_required: yes
+
+  - id: conjecture-L1L2-01
+    operation: "Phase 4 — For each decision, both Layer 1 (10% mechanics) AND Layer 2 (90% rule) named, with source citation"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 2
+      required_pattern: '(Layer 1|Layer 2|10% mechanics|90% rule)'
+      parts:
+        - layer_1_named: "API calls / parameter values / code structure"
+        - layer_2_named: "specific 90% rule with source"
+    span_required: yes
+    notes: "Layers collapsed into the same statement (Layer 1 and Layer 2 read identically) caps at 1."
+
+  - id: conjecture-PURITY-01
+    operation: "Phase 5 — Shipping-binary purity verification (procedural pattern scan against the 9-item checklist)"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(Shipping-Binary Purity|pattern scan|NSClassFromString|dlsym|performSelector|valueForKey|no unacceptable elements|acceptable elements only|✓.*?(acceptable|unacceptable)|no private symbols)'
+    span_required: yes
+    notes: "Asserted purity without procedural scan = 1. Procedural scan executed = 2. Skipped entirely = 0."
+
+  - id: conjecture-CONTRAST-01
+    operation: "Phase 6 — Tier 2B contrast with all FOUR concrete dimensions (API delta / parameter delta / compositional pattern delta / UX outcome delta)"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 4
+      required_pattern: '(API delta|parameter delta|compositional.*?delta|UX.*?delta|Tier 2B)'
+      domain_specificity: "each delta must name specific APIs / parameters / patterns / UX properties — not vague 'different approach'"
+    span_required: yes
+    notes: "All four dimensions concrete = 2. Two or three = 1. One or zero or vague = 0."
+
+  - id: conjecture-IMPLICIT-01
+    operation: "Phase 7.5 — Layer 2 implicit-in-structure verification (does the structure force the reader toward the rule even without annotation?)"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(implicit.in.structure|Phase 7.5|structure.*?force|annotation.*?absent|structure.*?implies|rule.*?encoded.*?structure|reverse-pure-10%)'
+    span_required: yes
+
+  - id: conjecture-BOTTLE-01
+    operation: "Bottling Destination subsection — bottle/library name, module name, file path, adjacency, apprenticeship value"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(Bottling Destination|Bottle\s*/\s*library|Module name|File path.*?Modules|Adjacency|Apprenticeship value|Not for bottling)'
+    span_required: yes
+
+  - id: conjecture-CITE-01
+    operation: "Cited Inputs subsection — CARTO-* IDs and NINETY-* IDs explicitly listed"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(CARTO-[a-zA-Z0-9_-]|NINETY-[a-zA-Z0-9_-]|Cited Inputs|primitives cited|findings cited)'
+    span_required: yes
+    notes: "Citations without IDs (free-text references) caps at 1. No citations = 0."
+
+  - id: conjecture-META-01
+    operation: "Six Meta-Perspective Prompts walked (shipping-binary purity audit / encoding-versus-calling / reverse-pure-10% test / Tier 2B contrast adequacy / implementation-feasibility / validation-against-Apple-grade-benchmark)"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 4
+    span_required: yes
+    notes: "All six = 2. Four or five = 1. Fewer than four = 0."
+
+  - id: conjecture-DIM-01
+    operation: "Dimensionality Completeness Check — at least 5 of 7 dimensions addressed (decision / 90%-lens-application / layer-separation / purity-rigor / Tier-2B-specificity / validation-benchmark / apprenticeship-quality)"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 5
+    span_required: yes
+
+  - id: M1
+    operation: "Honest non-execution acknowledgment"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(I (did not|have not|cannot)|outstanding|pending|partial|skipped|did not address|not yet|unexamined|tentative|cannot complete)'
+    span_required: yes
+
+  - id: M2
+    operation: "Capability grounding"
+    evidence_schema:
+      type: comparative_claim
+      parts:
+        - capability_named: specific
+        - how_this_run_enables_it: specific
+    span_required: yes
+
+  - id: M3
+    operation: "Cross-skill traceability"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(CARTO-|NINETY-|GAUGE-|CONJECTURE-|recommend.*?/gauge|recommend.*?/cartography|recommend.*?/ninety|recommend.*?/conjecture|recommend.*?/lens-check|/cartography|/ninety|/conjecture|/lens-check)'
+    span_required: yes
+
+scoring:
+  per_item: "0 | 1 | 2"
+  skill_score: "sum / max_possible"
+  thresholds:
+    pass: "skill_score >= 0.75 AND every meta_item >= 1 AND posture/mode items != 0 AND conjecture-PURITY-01 != 0"
+    warn: "0.50 <= skill_score < 0.75"
+    fail: "skill_score < 0.50 OR any meta_item == 0 OR conjecture-PURITY-01 == 0"

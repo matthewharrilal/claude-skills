@@ -1,0 +1,139 @@
+skill: lens-check
+skill_md_path: /Users/spacewizardmoneygang/.claude/skills/lens-check/SKILL.md
+rubric_version: 1.0.0
+
+items:
+  - id: lens-check-POSTURE-01
+    operation: "Confirm Janum-tier vs. senior posture and emit POSTURE: declaration at compound top"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: 'POSTURE:\s*(janum|senior|unknown)'
+    span_required: yes
+    notes: "Compound treats any mid-compound posture drift as a hard halt. Silent skip = 0."
+
+  - id: lens-check-CAP-01
+    operation: "Reference at least one concrete capability from 'What This Skill Concretely Enables'"
+    evidence_schema:
+      type: comparative_claim
+      parts:
+        - capability_named: "must match one of: recover full framework calibration in single operation; surface cross-skill blind spots; produce unified design document; detect when full framework not required; maintain framework discipline across time"
+        - how_this_run_enables_it: specific
+    span_required: yes
+
+  - id: lens-check-MODE-01
+    operation: "Mode declaration — Forward Mode or Reverse Mode (Reverse with B-Understand or B-Reproduce)"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(Forward Mode|Reverse Mode|Mode:\s*(Forward|Reverse)|LENS-CHECK\s*[—-])'
+    span_required: yes
+    notes: "Mode determines sub-skill order. Reverse Mode runs gauge → ninety → cartography → conjecture (conjecture skipped if Mode B-Understand)."
+
+  - id: lens-check-PHASE-GAUGE-01
+    operation: "Phase 1 — substantive /gauge output embedded (tier classification + target tier + blind spots + dimensionality status)"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(Phase 1|=== Gauge|GAUGE|tier classification|baseline.*?tier|target tier)'
+      domain_specificity: "gauge output must produce a concrete tier baseline, not a generic claim of having run /gauge"
+    span_required: yes
+
+  - id: lens-check-PHASE-CARTO-01
+    operation: "Phase 2 — substantive /cartography output embedded (primitive menu summary + completeness assessment + blind spots)"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(Phase 2|=== Cartography|CARTOGRAPHY|primitive menu|Front End|Middle of the 10|Latter End)'
+      domain_specificity: "cartography output must enumerate concrete primitives, not just claim primitives exist"
+    span_required: yes
+    notes: "Skipped only valid if /gauge confirmed Tier 1 pure-front-of-10% work."
+
+  - id: lens-check-PHASE-NINETY-01
+    operation: "Phase 3 — substantive /ninety output embedded (manifestations engaged + intentions active + findings) OR justified skip"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(Phase 3|=== Ninety|NINETY|manifestations|intentions active|findings|skipped.*?(Tier 1|front-of-10|sufficient))'
+    span_required: yes
+
+  - id: lens-check-PHASE-CONJ-01
+    operation: "Phase 4 — substantive /conjecture output embedded (load-bearing decisions + Tier 2B contrast + purity status) OR justified skip"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(Phase 4|=== Conjecture|CONJECTURE|load-bearing|Tier 2B|purity|implementation readiness)'
+    span_required: yes
+    notes: "Mode B-Understand legitimately skips Phase 4."
+
+  - id: lens-check-COHERENCE-01
+    operation: "Phase 5 — six coherence tests executed (primitive-usage / rule-application / parameter-consistency / tier-match / confidence-propagation / posture-consistency)"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 4
+      required_pattern: '(coherence|primitive-usage|rule-application|parameter-consistency|tier-match|confidence-propagation|posture-consistency|Cross-skill)'
+    span_required: yes
+    notes: "All six tests = 2. Four or five = 1. Fewer than four = 0."
+
+  - id: lens-check-PIVOT-01
+    operation: "Phase 5.5 — Pivot Diagnostic results when run (seven epistemological pivots assessed honored/partially/collapsed)"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 1
+      required_pattern: '(Pivot Diagnostic|Pivot\s*[1-7]|anchor.*?breadth|menu over depth|conjecture.*?not three|cartography.*?mechanics.*?taste|taste as trigger|90%.*?lens.*?not.*?importable|honored|partially honored|collapsed|Pivot Diagnostic skipped|not triggered)'
+    span_required: yes
+    notes: "Triggered when regression suspected. If not triggered, explicit 'Pivot Diagnostic skipped — framework operating cleanly' acceptable for 1."
+
+  - id: lens-check-BOTTLE-01
+    operation: "Bottling Destination subsection (inherited from /conjecture if Forward Mode produced a module candidate)"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(Bottling Destination|Bottle\s*/\s*library|Module name|File path.*?Modules|Apprenticeship value|Not for bottling|no bottling output|Mode B-Understand.*?no bottling)'
+    span_required: yes
+
+  - id: lens-check-META-01
+    operation: "Six Meta-Perspective Prompts walked (thin-input cascade / skipped-sub-skill / output-incoherence / dimension-completeness-cascade / integration-layer-blind-spot / verdict-honesty)"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 4
+    span_required: yes
+    notes: "All six = 2. Four or five = 1."
+
+  - id: lens-check-VERDICT-01
+    operation: "Unified verdict — ready to implement / re-run specific sub-skill / additional research before implementation"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(Unified verdict|Ready to implement|Not ready to implement|Implementation Plan|outstanding work|partial:\s*pending)'
+    span_required: yes
+
+  - id: lens-check-DIM-01
+    operation: "Dimensionality Completeness Check — at least 4 of 6 dimensions addressed (sub-skill coverage / sub-skill depth / sub-skill metacognition / integration coherence / implementation-readiness honesty / apprenticeship-material quality)"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 4
+    span_required: yes
+
+  - id: M1
+    operation: "Honest non-execution acknowledgment"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(I (did not|have not|cannot)|outstanding|pending|partial|skipped|did not address|not yet|unexamined|incomplete)'
+    span_required: yes
+
+  - id: M2
+    operation: "Capability grounding"
+    evidence_schema:
+      type: comparative_claim
+      parts:
+        - capability_named: specific
+        - how_this_run_enables_it: specific
+    span_required: yes
+
+  - id: M3
+    operation: "Cross-skill traceability — citation IDs across CARTO-/NINETY- AND skill-name pointers"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(CARTO-|NINETY-|GAUGE-|CONJECTURE-|/gauge|/cartography|/ninety|/conjecture)'
+    span_required: yes
+
+scoring:
+  per_item: "0 | 1 | 2"
+  skill_score: "sum / max_possible"
+  thresholds:
+    pass: "skill_score >= 0.75 AND every meta_item >= 1 AND posture/mode items != 0"
+    warn: "0.50 <= skill_score < 0.75"
+    fail: "skill_score < 0.50 OR any meta_item == 0"

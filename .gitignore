@@ -1,0 +1,47 @@
+# By default, ignore everything in ~/.claude/
+# This is sensitive: memory/, projects/, settings, hooks, etc. live here.
+# Only the explicitly-allowlisted directories below get tracked.
+*
+
+# Allowlist: the directories and files this backup repo is for
+!.gitignore
+!README.md
+!skills/
+!skills/**
+!property-library/
+!property-library/**
+
+# Within skills/, ignore third-party package machinery
+# (symlinks pointing outside the repo + hidden third-party directories)
+skills/.agent/
+skills/.agents/
+skills/.claude/
+skills/.factory/
+
+# Third-party-managed skills (symlinks → ~/.agents/skills/X)
+# These get re-installed via their source package on a fresh machine.
+skills/blender
+skills/brainstorming
+skills/browse
+skills/dispatching-parallel-agents
+skills/elevenlabs
+skills/executing-plans
+skills/find-skills
+skills/finishing-a-development-branch
+skills/receiving-code-review
+skills/requesting-code-review
+skills/shader-dev
+skills/shadertoy
+skills/subagent-driven-development
+skills/systematic-debugging
+skills/test-driven-development
+skills/threejs-fundamentals
+skills/using-git-worktrees
+skills/using-superpowers
+skills/verification-before-completion
+skills/webgpu-threejs-tsl
+skills/writing-plans
+skills/writing-skills
+
+# macOS noise
+.DS_Store

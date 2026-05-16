@@ -1,0 +1,140 @@
+skill: cartography
+skill_md_path: /Users/spacewizardmoneygang/.claude/skills/cartography/SKILL.md
+rubric_version: 1.0.0
+
+items:
+  - id: cartography-POSTURE-01
+    operation: "Confirm Janum-tier vs. senior posture and emit POSTURE: declaration"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: 'POSTURE:\s*(janum|senior|unknown)'
+    span_required: yes
+    notes: "Senior posture treats latter-end as Apple's failure rather than research territory and produces thin enumeration. Silent skip = 0."
+
+  - id: cartography-CAP-01
+    operation: "Reference at least one concrete capability from 'What This Skill Concretely Enables'"
+    evidence_schema:
+      type: comparative_claim
+      parts:
+        - capability_named: "must match one of: choose primitives from full menu; discover compositional pairings; reach into latter end with risk awareness; detect when 90% engagement is required; articulate alternatives considered/rejected; recognize new iOS-version capabilities"
+        - how_this_run_enables_it: specific
+    span_required: yes
+
+  - id: cartography-DOMAIN-01
+    operation: "Phase 1 — Define the problem domain precisely (boundaries stated so primitives are evaluable as in-scope or out-of-scope)"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(CARTOGRAPHY\s*[—-]|=== Problem Domain|Phase 1|domain:|problem domain)'
+      domain_specificity: "domain definition must name a specific iOS engineering territory"
+    span_required: yes
+
+  - id: cartography-FRONT-01
+    operation: "Front End of the 10% enumerated — at least one well-documented public API primitive with documentation quality assessment"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 1
+      domain_specificity: "must name actual iOS SDK primitives (UIKit/SwiftUI/CoreAnimation/Foundation/etc.) — not generic 'public APIs'"
+    span_required: yes
+
+  - id: cartography-MIDDLE-01
+    operation: "Middle of the 10% enumerated — at least one sparsely-documented primitive with experimentation cost estimate"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 1
+      domain_specificity: "must name actual middle-tier primitives with what is/is-not documented"
+    span_required: yes
+
+  - id: cartography-LATTER-01
+    operation: "Latter End of the 10% enumerated — primitive(s) with access method + App Store risk + version stability annotations"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 1
+      domain_specificity: "must name reachable-but-undocumented primitives (_UI-prefixed, CAFilter recipes, KVC-accessible private properties on public classes, undocumented enum values, etc.)"
+    span_required: yes
+    notes: "Latter-end is where Janum-tier cartography earns its keep. Thin or absent latter-end = 0."
+
+  - id: cartography-DEP-01
+    operation: "90%-dependency annotation per latter-end primitive (none / light / heavy)"
+    evidence_schema:
+      type: enumerated_list
+      required_pattern: '(90%-dependency|90%\s*dependency|dependency:\s*(none|light|heavy)|none\b|light\b|heavy\b)'
+    span_required: yes
+    notes: "This annotation routes /conjecture decisions. Missing = 0."
+
+  - id: cartography-CITE-01
+    operation: "Citation IDs in CARTO-[domain]-[NN] format for cross-skill traceability"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: 'CARTO-[a-zA-Z0-9_-]+-?\d*'
+    span_required: yes
+    notes: "/conjecture cites primitives by these IDs. No CARTO- IDs = 0."
+
+  - id: cartography-BLIND-01
+    operation: "Phase 5 — Surface explicit blind spots (categories NOT enumerated, with research action to address)"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 1
+      domain_specificity: "each blind spot must name a specific category (cross-domain pairing / iOS version addition / platform variant / etc.) plus research action"
+    span_required: yes
+
+  - id: cartography-META-01
+    operation: "Six Meta-Perspective Prompts walked (differently-exposed cartographer / cross-domain / new-iOS-version / escaped-artifact / shipped-Apple-grade-app / platform-variant)"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 4
+      domain_specificity: "each prompt must surface a domain-specific candidate, not a generic restatement"
+    span_required: yes
+    notes: "All six = 2. Four or five = 1. Fewer than four = 0."
+
+  - id: cartography-SUFF-01
+    operation: "Sufficiency Check — produces explicit routing decision: pure-10% sufficient OR /ninety required (with intentions named)"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(Sufficiency Check|sufficient via pure-10%|/ninety needed|/ninety required|/ninety on|No /ninety needed|insufficient.*?(light|heavy))'
+    span_required: yes
+    notes: "This is the routing decision the framework depends on. Missing = 0."
+
+  - id: cartography-NEXT-01
+    operation: "Recommend the next framework skill given the cartography output"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(/ninety|/conjecture|/lens-check|proceed with.*?primitive|no further framework skills)'
+    span_required: yes
+
+  - id: cartography-DIM-01
+    operation: "Dimensionality Completeness Check — at least 5 of 7 dimensions addressed (gradient / category / pairing / platform / version / risk / source-attribution)"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 5
+    span_required: yes
+
+  - id: M1
+    operation: "Honest non-execution acknowledgment"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(I (did not|have not|cannot)|outstanding|pending|partial|skipped|did not address|not yet|unexamined|would need)'
+    span_required: yes
+
+  - id: M2
+    operation: "Capability grounding"
+    evidence_schema:
+      type: comparative_claim
+      parts:
+        - capability_named: specific
+        - how_this_run_enables_it: specific
+    span_required: yes
+
+  - id: M3
+    operation: "Cross-skill traceability"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(CARTO-|NINETY-|GAUGE-|CONJECTURE-|recommend.*?/gauge|recommend.*?/cartography|recommend.*?/ninety|recommend.*?/conjecture|recommend.*?/lens-check|/cartography|/ninety|/conjecture|/lens-check)'
+    span_required: yes
+
+scoring:
+  per_item: "0 | 1 | 2"
+  skill_score: "sum / max_possible"
+  thresholds:
+    pass: "skill_score >= 0.75 AND every meta_item >= 1 AND posture/mode items != 0"
+    warn: "0.50 <= skill_score < 0.75"
+    fail: "skill_score < 0.50 OR any meta_item == 0"
