@@ -1,0 +1,132 @@
+skill: arch-cartography
+skill_md_path: /Users/spacewizardmoneygang/.claude/skills/arch-cartography/SKILL.md
+rubric_version: 1.0.0
+
+items:
+  - id: arch-cartography-POSTURE-01
+    operation: "POSTURE: declaration"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: 'POSTURE:\s*(janum|senior|unknown)'
+    span_required: yes
+
+  - id: arch-cartography-DOMAIN-01
+    operation: "Problem domain defined with specificity in Phase 1"
+    evidence_schema:
+      type: explicit_statement
+      domain_specificity: "specific architectural problem domain, not generic 'iOS architecture'"
+    span_required: yes
+
+  - id: arch-cartography-FRONT-01
+    operation: "Front End enumeration — at least 3 primitives with Apple-source citations"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 3
+      required_pattern: '(Front End|WWDC|developer\.apple\.com|UIView\.|SwiftUI|@Observable|UIViewPropertyAnimator)'
+    span_required: yes
+
+  - id: arch-cartography-MIDDLE-01
+    operation: "Middle of the 10% — at least 3 primitives with OSS/blog citations"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 3
+      required_pattern: '(Middle|Coordinator pattern|Lottie|MVVM|Combine|github\.com|medium\.com)'
+    span_required: yes
+
+  - id: arch-cartography-LATTER-01
+    operation: "Latter End of the 10% — at least 4 primitives with named principal-tier source + citation ID"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 4
+      required_pattern: '(Latter End|swift-dependencies|protocol witness|Has-protocol|Wave|Stagehand|Inject|Sourcery|TCA|Janum|Krzysztof|Pointfree|ARCH-CARTO-)'
+    span_required: yes
+
+  - id: arch-cartography-DOMAINS-01
+    operation: "Per-domain coverage — at least 3 domains enumerated across all three tiers"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 3
+      required_pattern: '(DI|Dependency Injection|State|Animation|Navigation|Persistence|Network|Testing|DevX|Application Architecture)'
+    span_required: yes
+
+  - id: arch-cartography-AGENT-01
+    operation: "Agent dispatch decision documented"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(Agent dispatch|dispatched.*?agents|ARCH-CARTO-RESEARCHER|agent dispatch.*?skipped)'
+    span_required: yes
+
+  - id: arch-cartography-PAIRINGS-01
+    operation: "Compositional pairings surfaced — at least 2 cross-primitive combinations"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 2
+      required_pattern: '(Compositional pairings|composes with|combines with|pairs with|stack:|composition:)'
+    span_required: yes
+
+  - id: arch-cartography-BLIND-01
+    operation: "Blind Spots — explicit list of what was NOT enumerated"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 2
+    span_required: yes
+
+  - id: arch-cartography-SUFF-01
+    operation: "Sufficiency Check vs target tier from /arch-gauge"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(Sufficiency Check|sufficient to ship|insufficient|/arch-ninety|90%-dependency)'
+    span_required: yes
+
+  - id: arch-cartography-NEXT-01
+    operation: "Recommended Next Skill with reasoning"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(/arch-ninety|/arch-conjecture|/arch-lens-check|no further chain|gauge-only-sufficient)'
+    span_required: yes
+
+  - id: arch-cartography-META-01
+    operation: "At least 3 of 4 Blind-Spot Diagnostic prompts walked"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 3
+    span_required: yes
+    notes: "latter-end-thinness / adjacent-domain-blindness / recent-OSS-blindness / inadvertent-prescription"
+
+  - id: arch-cartography-DIM-01
+    operation: "Dimensionality Completeness — at least 4 of 6 dimensions"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 4
+    span_required: yes
+
+  - id: M1
+    operation: "Honest non-execution acknowledgment"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(I (did not|have not|cannot)|outstanding|pending|partial|skipped|unexamined|honest gap)'
+    span_required: yes
+
+  - id: M2
+    operation: "Capability grounding"
+    evidence_schema:
+      type: comparative_claim
+      parts:
+        - capability_named: "must match one of: choose primitives from full menu; discover compositional pairings; recognize rolled-your-own; detect need for /arch-ninety; produce referenceable enumeration"
+        - how_this_run_enables_it: specific
+    span_required: yes
+
+  - id: M3
+    operation: "Citation IDs (ARCH-CARTO-*) used for latter-end primitives"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: 'ARCH-CARTO-[a-zA-Z]+-\d+'
+    span_required: yes
+
+scoring:
+  per_item: "0 | 1 | 2"
+  skill_score: "sum / max_possible"
+  thresholds:
+    pass: "skill_score >= 0.75 AND M1 >= 1 AND M2 >= 1 AND POSTURE != 0"
+    warn: "0.50 <= skill_score < 0.75"
+    fail: "skill_score < 0.50 OR any meta_item == 0"

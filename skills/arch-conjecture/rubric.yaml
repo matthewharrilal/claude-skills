@@ -1,0 +1,139 @@
+skill: arch-conjecture
+skill_md_path: /Users/spacewizardmoneygang/.claude/skills/arch-conjecture/SKILL.md
+rubric_version: 1.0.0
+
+items:
+  - id: arch-conjecture-POSTURE-01
+    operation: "POSTURE: declaration"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: 'POSTURE:\s*(janum|senior|unknown)'
+    span_required: yes
+
+  - id: arch-conjecture-INPUTS-01
+    operation: "Verify prior sub-skill inputs (gauge / cartography / ninety) present"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(/arch-gauge.*?(present|output)|/arch-cartography.*?(present|output)|/arch-ninety.*?(present|output)|Inputs verified)'
+    span_required: yes
+
+  - id: arch-conjecture-TIER-01
+    operation: "Required tier anchor stated"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(Required tier|Tier\s*[0-3][AB]?|target tier)'
+    span_required: yes
+
+  - id: arch-conjecture-MODULE-01
+    operation: "Module structure with concrete file paths"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(Module structure|Packages/|Sources/|\.swift|directory tree)'
+    span_required: yes
+
+  - id: arch-conjecture-TYPES-01
+    operation: "Type-level architecture — at least 3 named types with signatures"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 3
+      required_pattern: '(struct |final class |actor |protocol |enum |@MainActor|@Observable)'
+    span_required: yes
+
+  - id: arch-conjecture-WIRING-01
+    operation: "Wiring story with specific injection mechanisms"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(Wiring|@Dependency|@Environment|swift-dependencies|TaskLocal|composition root|constructor injection|Has-protocol|witness)'
+    span_required: yes
+
+  - id: arch-conjecture-CALLSITE-01
+    operation: "Call-site experience — concrete code snippets for load-bearing call sites"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(```swift|let\s+\w+\s*=|\.animator\.|\.dispatch\(|withDependencies|withAnimation)'
+    span_required: yes
+
+  - id: arch-conjecture-REJECTION-01
+    operation: "Rejection list — at least 3 abstractions NOT being built with cited reasons"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 3
+      required_pattern: '(Rejection list|REFUSED|not building|deliberately rejected|not built|NO protocol|NO DI framework)'
+    span_required: yes
+    notes: "Principal-tier signature output. Absence = engagement was incomplete."
+
+  - id: arch-conjecture-MIGRATION-01
+    operation: "Migration plan — commit-by-commit when anchoring to current codebase"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 1
+      required_pattern: '(Migration plan|Commit-by-commit|Commit 1|Step 1|implementation order|migration.*?path|Not applicable.*?greenfield)'
+    span_required: yes
+    notes: "Skippable if greenfield. Must be explicit if skipped."
+
+  - id: arch-conjecture-COHERENCE-01
+    operation: "Six coherence tests run"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 4
+      required_pattern: '(Coherence test|primitive-usage|rule-application|parameter-consistency|tier-match|confidence-propagation|rejection-completeness)'
+    span_required: yes
+
+  - id: arch-conjecture-CITATION-01
+    operation: "Citation IDs threaded (ARCH-CARTO-* and ARCH-NINETY-*)"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(ARCH-CARTO-|ARCH-NINETY-)'
+    span_required: yes
+
+  - id: arch-conjecture-READY-01
+    operation: "Implementation readiness declaration"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(Implementation readiness|Ready to implement|Not ready|outstanding work|partial)'
+    span_required: yes
+
+  - id: arch-conjecture-AGENT-01
+    operation: "Agent dispatch decision (validators) explicit"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(Agent dispatch|Validator Agent|agents.*?(dispatched|skipped))'
+    span_required: yes
+
+  - id: arch-conjecture-META-01
+    operation: "At least 3 of 6 Blind-Spot Diagnostic prompts walked"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 3
+    span_required: yes
+
+  - id: arch-conjecture-DIM-01
+    operation: "Dimensionality Completeness — at least 4 of 6 dimensions"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 4
+    span_required: yes
+
+  - id: M1
+    operation: "Honest non-execution acknowledgment"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(I (did not|have not|cannot)|outstanding|pending|partial|skipped)'
+    span_required: yes
+
+  - id: M2
+    operation: "Capability grounding"
+    evidence_schema:
+      type: comparative_claim
+      parts:
+        - capability_named: "must match one of: defensible architectural recommendation; thread 90% findings into code; scope to required tier; produce migration plan; ground in citation IDs"
+        - how_this_run_enables_it: specific
+    span_required: yes
+
+scoring:
+  per_item: "0 | 1 | 2"
+  skill_score: "sum / max_possible"
+  thresholds:
+    pass: "skill_score >= 0.75 AND M1 >= 1 AND M2 >= 1 AND POSTURE != 0 AND REJECTION != 0 AND CALLSITE != 0"
+    warn: "0.50 <= skill_score < 0.75"
+    fail: "skill_score < 0.50 OR any meta_item == 0"

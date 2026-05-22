@@ -1,0 +1,127 @@
+skill: arch-gauge
+skill_md_path: /Users/spacewizardmoneygang/.claude/skills/arch-gauge/SKILL.md
+rubric_version: 1.0.0
+
+items:
+  - id: arch-gauge-POSTURE-01
+    operation: "Confirm Janum-tier vs senior posture and emit POSTURE: declaration"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: 'POSTURE:\s*(janum|senior|unknown)'
+    span_required: yes
+    notes: "Silent skip = 0. Senior posture must halt before producing tier claims."
+
+  - id: arch-gauge-MODE-01
+    operation: "Mode declaration (Introspective / Artifact-Understand / Artifact-Reproduce)"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(Mode:\s*(Introspective|Artifact)|Introspective Architectural Gauge|Artifact Gauge)'
+    span_required: yes
+
+  - id: arch-gauge-DOMAIN-01
+    operation: "Architectural domain named with specificity"
+    evidence_schema:
+      type: explicit_statement
+      domain_specificity: "specific domain (DI / state / animation / navigation / network / persistence / DevX / app skeleton / feature flow), not generic 'the architecture'"
+    span_required: yes
+
+  - id: arch-gauge-TIER-01
+    operation: "Current tier estimate + Required tier + Gap declaration"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(Tier\s*[0-3][AB]?|tier classification|target tier|required tier|Gap)'
+    span_required: yes
+    notes: "Must produce tier number(s) plus the gap analysis."
+
+  - id: arch-gauge-PER-DOMAIN-01
+    operation: "Per-domain tier breakdown when codebase is gauged (not just aggregate)"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 2
+      required_pattern: '(DI:\s*Tier|State:\s*Tier|Animation:\s*Tier|Navigation:\s*Tier|DevX:\s*Tier|Persistence:\s*Tier|Network:\s*Tier|per-domain)'
+    span_required: yes
+    notes: "Skippable only when the gauge target is a single domain. Otherwise required."
+
+  - id: arch-gauge-EVIDENCE-01
+    operation: "Source evidence cited for tier classification (files / OSS / blog posts / talks)"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(Source evidence|Sources|cited|github\.com|medium\.com|blog\.|WWDC|file:|\.swift)'
+    span_required: yes
+
+  - id: arch-gauge-CRAFT-01
+    operation: "90% craft visible / likely encoded (artifact mode) OR craft gaps surfaced (introspective)"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 2
+      required_pattern: '(90%|principal-tier|craft pattern|Has-protocol|witness|animator-on-view|spec/runner|hot-reload|code-as-UX|DevX-as-product|discipline of refusal)'
+    span_required: yes
+
+  - id: arch-gauge-BLIND-01
+    operation: "Blind spots surfaced (cartographic / 90% / tier-A unused / code-as-UX / DevX)"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 2
+    span_required: yes
+
+  - id: arch-gauge-NEXT-01
+    operation: "Recommended next sub-skill with reasoning"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(/arch-cartography|/arch-ninety|/arch-conjecture|/arch-lens-check|no further chain|gauge-only-sufficient)'
+    span_required: yes
+
+  - id: arch-gauge-AGENT-01
+    operation: "Agent dispatch decision (dispatched / explicitly skipped with reasoning)"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(Agent dispatch|dispatched.*?agents|research agents|agent dispatch.*?skipped|baseline knowledge sufficient)'
+    span_required: yes
+    notes: "Silent non-dispatch when evidence is thin = 0. Must explicitly justify."
+
+  - id: arch-gauge-CONFIDENCE-01
+    operation: "Source-confidence summary per major claim (HIGH / MEDIUM / LOW)"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 2
+      required_pattern: '(confidence:\s*(HIGH|MEDIUM|LOW|high|medium|low)|Source-confidence|HIGH confidence|MEDIUM confidence|LOW confidence)'
+    span_required: yes
+
+  - id: arch-gauge-META-01
+    operation: "At least 3 of 5 Blind-Spot Diagnostic Meta-Perspective Prompts walked"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 3
+    span_required: yes
+    notes: "tier-confusion / aggregate-tier-hides-domain / reference-shop-overestimation / required-tier-overshoot / agent-not-dispatched"
+
+  - id: arch-gauge-DIM-01
+    operation: "Dimensionality Completeness — at least 4 of 6 dimensions addressed"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 4
+    span_required: yes
+
+  - id: M1
+    operation: "Honest non-execution acknowledgment"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(I (did not|have not|cannot)|outstanding|pending|partial|skipped|incomplete|unexamined)'
+    span_required: yes
+
+  - id: M2
+    operation: "Capability grounding — name a specific capability the gauge enabled"
+    evidence_schema:
+      type: comparative_claim
+      parts:
+        - capability_named: "must match one of: detect tier mismatch before commitment; identify domain bottleneck; gauge external reference shop; declare no-framework-needed; surface rolled-your-own where tier-A exists"
+        - how_this_run_enables_it: specific
+    span_required: yes
+
+scoring:
+  per_item: "0 | 1 | 2"
+  skill_score: "sum / max_possible"
+  thresholds:
+    pass: "skill_score >= 0.75 AND M1 >= 1 AND M2 >= 1 AND POSTURE != 0 AND TIER != 0"
+    warn: "0.50 <= skill_score < 0.75"
+    fail: "skill_score < 0.50 OR any meta_item == 0"

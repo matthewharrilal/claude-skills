@@ -1,0 +1,128 @@
+skill: arch-ninety
+skill_md_path: /Users/spacewizardmoneygang/.claude/skills/arch-ninety/SKILL.md
+rubric_version: 1.0.0
+
+items:
+  - id: arch-ninety-POSTURE-01
+    operation: "POSTURE: declaration"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: 'POSTURE:\s*(janum|senior|unknown)'
+    span_required: yes
+
+  - id: arch-ninety-MANIF-01
+    operation: "Active manifestations declared (A through E)"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 2
+      required_pattern: '(Manifestation\s*[A-E]|internal compositions|principal-tier|code-as-UX|DevX-as-product|discipline of refusal|philosophical inheritance)'
+    span_required: yes
+
+  - id: arch-ninety-INTENT-01
+    operation: "Active intentions declared (1 through 8)"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 2
+      required_pattern: '(Intention\s*[1-8]|compositional lens|importable material|peer rebuild|discipline of refusal|tier-A availability|taste calibration|DevX audit|philosophical inheritance)'
+    span_required: yes
+
+  - id: arch-ninety-FINDINGS-01
+    operation: "Specific findings per active manifestation with ARCH-NINETY-* citation IDs"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 4
+      required_pattern: 'ARCH-NINETY-[A-E]-\d+'
+    span_required: yes
+
+  - id: arch-ninety-AGENT-01
+    operation: "Agent dispatch decision documented + executed when warranted"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(Agent dispatch|dispatched.*?agents|ARCH-NINETY-RESEARCHER|agent dispatch.*?skipped.*?baseline)'
+    span_required: yes
+    notes: "Skipping agent dispatch without justification = 0."
+
+  - id: arch-ninety-REJECTION-01
+    operation: "Rejection list produced (Intention 4 — discipline of refusal)"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 3
+      required_pattern: '(rejection list|REFUSED|not building|discipline of refusal|not built|deliberately rejected)'
+    span_required: yes
+    notes: "The principal-tier signature output. If absent, engagement was incomplete."
+
+  - id: arch-ninety-TIER-A-01
+    operation: "Tier-A availability check produced (Intention 5)"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 1
+      required_pattern: '(tier-A|Wave|swift-dependencies|Stagehand|Inject|Sourcery|rolled.your.own|insider-grade)'
+    span_required: yes
+
+  - id: arch-ninety-CONFIDENCE-01
+    operation: "Source-confidence tags per major claim"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 3
+      required_pattern: '(BLOG-CITED|OSS-VERIFIED|TALK-CITED|REVERSE-ENGINEERED|HIGH confidence|MEDIUM confidence|LOW confidence)'
+    span_required: yes
+
+  - id: arch-ninety-GAPS-01
+    operation: "Honest gaps acknowledged"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 1
+      required_pattern: '(Honest gaps|couldn.t.*?research|outstanding|not yet investigated|unable to verify)'
+    span_required: yes
+
+  - id: arch-ninety-NEXT-01
+    operation: "Recommended next skill"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(/arch-conjecture|/arch-lens-check|no further chain)'
+    span_required: yes
+
+  - id: arch-ninety-META-01
+    operation: "At least 3 of 5 Blind-Spot Diagnostic prompts walked"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 3
+    span_required: yes
+
+  - id: arch-ninety-DIM-01
+    operation: "Dimensionality Completeness — at least 4 of 6 dimensions"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 4
+    span_required: yes
+
+  - id: M1
+    operation: "Honest non-execution acknowledgment"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(I (did not|have not|cannot)|outstanding|pending|partial|skipped|unexamined|incomplete)'
+    span_required: yes
+
+  - id: M2
+    operation: "Capability grounding"
+    evidence_schema:
+      type: comparative_claim
+      parts:
+        - capability_named: "must match one of: import patterns with WHY understanding; produce rejection list; recognize tier-A availability; articulate philosophical inheritance; dispatch agents for cited evidence"
+        - how_this_run_enables_it: specific
+    span_required: yes
+
+  - id: M3
+    operation: "ARCH-NINETY-* citation IDs used throughout"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: 'ARCH-NINETY-[A-E]-\d+'
+    span_required: yes
+
+scoring:
+  per_item: "0 | 1 | 2"
+  skill_score: "sum / max_possible"
+  thresholds:
+    pass: "skill_score >= 0.75 AND M1 >= 1 AND M2 >= 1 AND POSTURE != 0 AND REJECTION != 0"
+    warn: "0.50 <= skill_score < 0.75"
+    fail: "skill_score < 0.50 OR any meta_item == 0"

@@ -1,0 +1,128 @@
+skill: arch-lens-check
+skill_md_path: /Users/spacewizardmoneygang/.claude/skills/arch-lens-check/SKILL.md
+rubric_version: 1.0.0
+
+items:
+  - id: arch-lens-check-POSTURE-01
+    operation: "POSTURE: declaration at compound top"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: 'POSTURE:\s*(janum|senior|unknown)'
+    span_required: yes
+
+  - id: arch-lens-check-MODE-01
+    operation: "Mode declaration (Forward / Reverse B-Understand / Reverse B-Reproduce)"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(Forward Mode|Reverse Mode|Mode:\s*(Forward|Reverse)|ARCH-LENS-CHECK)'
+    span_required: yes
+
+  - id: arch-lens-check-PHASE-GAUGE-01
+    operation: "Phase 1 — substantive /arch-gauge output embedded"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(Phase 1|=== Gauge|ARCH-GAUGE|tier classification|target tier|per-domain)'
+    span_required: yes
+
+  - id: arch-lens-check-PHASE-CARTO-01
+    operation: "Phase 2 — substantive /arch-cartography output embedded OR justified skip"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(Phase 2|=== Cartography|ARCH-CARTOGRAPHY|primitive menu|Front End|Latter End|skipped.*?Tier 1)'
+    span_required: yes
+
+  - id: arch-lens-check-PHASE-NINETY-01
+    operation: "Phase 3 — substantive /arch-ninety output embedded OR justified skip"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(Phase 3|=== Ninety|ARCH-NINETY|manifestations|intentions active|findings|skipped)'
+    span_required: yes
+
+  - id: arch-lens-check-PHASE-CONJ-01
+    operation: "Phase 4 — substantive /arch-conjecture output embedded OR justified skip (B-Understand)"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(Phase 4|=== Conjecture|ARCH-CONJECTURE|load-bearing|rejection list|migration plan|Mode B-Understand.*?skipped)'
+    span_required: yes
+
+  - id: arch-lens-check-COHERENCE-01
+    operation: "Phase 5 — at least 4 of 6 coherence tests executed"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 4
+      required_pattern: '(coherence|primitive-usage|rule-application|parameter-consistency|tier-match|confidence-propagation|posture-consistency)'
+    span_required: yes
+
+  - id: arch-lens-check-PIVOT-01
+    operation: "Phase 5.5 — Pivot Diagnostic (when triggered)"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 1
+      required_pattern: '(Pivot Diagnostic|Pivot\s*[1-7]|honored|partially honored|collapsed|Pivot Diagnostic skipped)'
+    span_required: yes
+
+  - id: arch-lens-check-BOTTLE-01
+    operation: "Bottling Destination (from /arch-conjecture if Forward Mode + module candidate)"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(Bottling Destination|Bottle|Module name|File path|Apprenticeship value|no bottling|Mode B-Understand.*?no bottling)'
+    span_required: yes
+
+  - id: arch-lens-check-META-01
+    operation: "At least 4 of 7 Meta-Perspective Prompts walked"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 4
+    span_required: yes
+
+  - id: arch-lens-check-VERDICT-01
+    operation: "Unified verdict — implementation readiness declared"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(Unified verdict|Ready to implement|Not ready|Implementation Plan|outstanding work|partial:\s*pending)'
+    span_required: yes
+
+  - id: arch-lens-check-DIM-01
+    operation: "Dimensionality Completeness — at least 4 of 6 dimensions"
+    evidence_schema:
+      type: enumerated_list
+      minimum_items: 4
+    span_required: yes
+
+  - id: arch-lens-check-AGENT-01
+    operation: "Agent dispatch summary across sub-skills"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(Agent Dispatch Summary|agents.*?dispatched|baseline knowledge|skipped.*?agents)'
+    span_required: yes
+
+  - id: M1
+    operation: "Honest non-execution acknowledgment"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(I (did not|have not|cannot)|outstanding|pending|partial|skipped|unexamined|incomplete)'
+    span_required: yes
+
+  - id: M2
+    operation: "Capability grounding"
+    evidence_schema:
+      type: comparative_claim
+      parts:
+        - capability_named: "must match one of: recover full architectural calibration single operation; surface cross-skill blind spots; produce unified design document; detect when framework not required; maintain framework discipline"
+        - how_this_run_enables_it: specific
+    span_required: yes
+
+  - id: M3
+    operation: "Cross-skill traceability — citation IDs across sub-skills"
+    evidence_schema:
+      type: explicit_statement
+      required_pattern: '(ARCH-CARTO-|ARCH-NINETY-|/arch-gauge|/arch-cartography|/arch-ninety|/arch-conjecture)'
+    span_required: yes
+
+scoring:
+  per_item: "0 | 1 | 2"
+  skill_score: "sum / max_possible"
+  thresholds:
+    pass: "skill_score >= 0.75 AND every meta_item >= 1 AND POSTURE != 0 AND MODE != 0"
+    warn: "0.50 <= skill_score < 0.75"
+    fail: "skill_score < 0.50 OR any meta_item == 0"
